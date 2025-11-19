@@ -25,7 +25,33 @@
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <java.version>21</java.version>
+        <!-- Default: local build -->
+        <api.groupId>de.linushuck.utopia.skyblock.libs</api.groupId>
+        <api.version>1</api.version>
     </properties>
+
+    <profiles>
+        <!-- Local build (default) - uses locally built libs -->
+        <profile>
+            <id>local</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <api.groupId>de.linushuck.utopia.skyblock.libs</api.groupId>
+                <api.version>1</api.version>
+            </properties>
+        </profile>
+
+        <!-- Online build - uses JitPack dependencies -->
+        <profile>
+            <id>online</id>
+            <properties>
+                <api.groupId>com.github.Utopia-SkyBlock.UtopiaSkyBlockAPI</api.groupId>
+                <api.version>development-SNAPSHOT</api.version>
+            </properties>
+        </profile>
+    </profiles>
 
     <scm>
         <connection>scm:git:git://github.com/Utopia-SkyBlock/TablistAddon.git</connection>
@@ -45,11 +71,12 @@
     </repositories>
 
     <dependencies>
-        <!-- Utopia SkyBlock API - via JitPack or local -->
+        <!-- Utopia SkyBlock API - switches between local/JitPack via profiles -->
+        <!-- Default: local build | Use -Ponline for JitPack -->
         <dependency>
-            <groupId>de.linushuck.utopia.skyblock.libs</groupId>
+            <groupId>${api.groupId}</groupId>
             <artifactId>UtopiaSkyBlockAPI</artifactId>
-            <version>1</version>
+            <version>${api.version}</version>
             <scope>provided</scope>
         </dependency>
 
