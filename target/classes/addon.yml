@@ -1,5 +1,0 @@
-name: TablistAddon
-version: '${project.version}'
-main: de.linushuck.utopia.skyblock.tablistaddon.TablistAddon
-authors: [ "Linus Huck" ]
-description: TablistAddon
