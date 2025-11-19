@@ -4,6 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <!-- Parent for local builds only - JitPack ignores this -->
     <parent>
         <groupId>de.linushuck.utopia.skyblock</groupId>
         <artifactId>SkyBlock</artifactId>
@@ -11,30 +12,101 @@
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
+    <groupId>de.linushuck.utopia.skyblock.addons</groupId>
     <artifactId>TablistAddon</artifactId>
+    <version>1</version>
+
+    <name>Utopia SkyBlock - Tablist Addon</name>
+    <description>Tablist addon for Utopia SkyBlock</description>
+    <url>https://github.com/Utopia-SkyBlock/TablistAddon</url>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <java.version>21</java.version>
+    </properties>
+
+    <scm>
+        <connection>scm:git:git://github.com/Utopia-SkyBlock/TablistAddon.git</connection>
+        <developerConnection>scm:git:ssh://github.com:Utopia-SkyBlock/TablistAddon.git</developerConnection>
+        <url>https://github.com/Utopia-SkyBlock/TablistAddon/tree/development</url>
+    </scm>
+
+    <repositories>
+        <repository>
+            <id>papermc-repo</id>
+            <url>https://repo.papermc.io/repository/maven-public/</url>
+        </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
 
     <dependencies>
+        <!-- Utopia SkyBlock API - via JitPack or local -->
         <dependency>
             <groupId>de.linushuck.utopia.skyblock.libs</groupId>
             <artifactId>FullUtopiaSkyBlockAPI</artifactId>
             <version>1</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- Paper API -->
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
+            <version>1.21.6-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <version>1.18.42</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- MongoDB -->
         <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>mongodb-driver-sync</artifactId>
+            <version>5.6.1</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.14.1</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <parameters>true</parameters>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.5.3</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
